@@ -2,6 +2,8 @@
 <head>
     <link rel="stylesheet" href="bootstrap-min.css">
     <script src="calculator.js"></script>
+    <script src="papaparse.js"></script>
+    <script src="save.js"></script>
 </head>
 <body>
 <div class="container mt-5">
@@ -34,7 +36,11 @@
                     <input type="date" class="form-control" id="startDate" placeholder="Enter start date" required>
                 </div>
                 <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
+                <button type="button" class="btn btn-primary" onclick="loadData() ">Load Data</button>
+                <button type="button" class="btn btn-primary" onclick="saveData() ">Save Data</button>
+                <button onclick="exportToCSV()">Export to CSV</button>
             </form>
+            <div id="totalPayments"></div>
         </div>
         <div class="col-lg-6">
             <h2>Payment Schedule</h2>
@@ -52,9 +58,31 @@
                 </tbody>
             </table>
             <div id="totalPayments"></div>
-            <div id="mortgageEstimate"></div>
         </div>
     </div>
+    <script>
+    function exportToCSV() {
+      // Get the payment schedule table
+      var paymentSchedule = document.getElementById("paymentSchedule");
+
+      // Convert the table to CSV using Papa Parse
+      var csv = Papa.unparse(paymentSchedule);
+
+      // Download the CSV file
+      var csvData = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(csvData);
+      link.setAttribute("download", "payment_schedule.csv");
+      document.body.appendChild(link);
+      link.click();
+
+      // Android-specific code to handle file download
+      if (navigator.userAgent.indexOf("Android") > -1) {
+          window.Android.downloadFile(link.href, link.getAttribute("download"));
+          document.body.removeChild(link);
+      }
+    }
+  </script>
 </div>
 </body>
 </html>

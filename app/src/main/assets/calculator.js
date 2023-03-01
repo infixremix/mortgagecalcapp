@@ -1,4 +1,3 @@
-// JavaScript source code
 function calculate() {
 	// Get input values
 	var loanAmount = document.getElementById("loanAmount").value;
@@ -104,4 +103,51 @@ function calculate() {
 	for (var i = rowLimit; i < tableRows.length; i++) {
 		tableRows[i].style.display = "none";
 	}
+}
+function saveData() {
+  // Get input values
+  var loanAmount = document.getElementById("loanAmount").value;
+  var interestRate = document.getElementById("interestRate").value;
+  var loanTerm = document.getElementById("loanTerm").value;
+  var paymentFrequency = document.getElementById("paymentFrequency").value;
+  var startDate = document.getElementById("startDate").value;
+
+  // Check if any input is empty
+  if (!loanAmount || !interestRate || !loanTerm || !paymentFrequency || !startDate) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  // Create data object
+  var data = {
+    loanAmount: loanAmount,
+    interestRate: interestRate,
+    loanTerm: loanTerm,
+    paymentFrequency: paymentFrequency,
+    startDate: startDate
+  };
+
+  // Save data to local storage
+  localStorage.setItem("mortgageData", JSON.stringify(data));
+  alert("Data saved successfully.");
+}
+
+function loadData() {
+  // Load data from local storage
+  var data = JSON.parse(localStorage.getItem("mortgageData"));
+
+  // Check if data is empty
+  if (!data) {
+    alert("No saved data found.");
+    return;
+  }
+
+  // Set input values
+  document.getElementById("loanAmount").value = data.loanAmount;
+  document.getElementById("interestRate").value = data.interestRate;
+  document.getElementById("loanTerm").value = data.loanTerm;
+  document.getElementById("paymentFrequency").value = data.paymentFrequency;
+  document.getElementById("startDate").value = data.startDate;
+  calculate();
+  alert("Data loaded successfully.");
 }
