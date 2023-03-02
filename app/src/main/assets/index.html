@@ -1,9 +1,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="bootstrap-min.css">
-    <script src="calculator.js"></script>
-    <script src="papaparse.js"></script>
     <script src="save.js"></script>
+    <script src="calculator.js"></script>
 </head>
 <body>
 <div class="container mt-5">
@@ -38,7 +37,7 @@
                 <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
                 <button type="button" class="btn btn-primary" onclick="loadData() ">Load Data</button>
                 <button type="button" class="btn btn-primary" onclick="saveData() ">Save Data</button>
-                <button onclick="exportToCSV()">Export to CSV</button>
+                <button onclick="Android.exportToCSV()">Export to CSV</button>
             </form>
             <div id="totalPayments"></div>
         </div>

@@ -18,6 +18,5 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.loadUrl("file:///android_asset/index.html");
         webView.getSettings().setDomStorageEnabled(true);
-
     }
 }

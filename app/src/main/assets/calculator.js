@@ -104,6 +104,21 @@ function calculate() {
 		tableRows[i].style.display = "none";
 	}
 }
+// Encrypt data using AES encryption
+function encryptData(data, password) {
+  var encryptedData;
+  try {
+    var salt = CryptoJS.lib.WordArray.random(128/8); // generate random salt
+    var key = CryptoJS.PBKDF2(password, salt, { keySize: 256/32 }); // derive key from password and salt
+    var iv = CryptoJS.lib.WordArray.random(128/8); // generate random IV
+    encryptedData = CryptoJS.AES.encrypt(data, key, { iv: iv }).toString() + ":" + salt.toString() + ":" + iv.toString(); // concatenate ciphertext, salt, and IV
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+  return encryptedData;
+}
+// Encrypt and save data to local storage
 function saveData() {
   // Get input values
   var loanAmount = document.getElementById("loanAmount").value;
@@ -127,22 +142,40 @@ function saveData() {
     startDate: startDate
   };
 
-  // Save data to local storage
-  localStorage.setItem("mortgageData", JSON.stringify(data));
+  // Get user password
+  var password = prompt("Please enter a password to protect your data:");
+
+  // Encrypt data and save to local storage
+  var encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), password).toString();
+  localStorage.setItem("mortgageData", encryptedData);
   alert("Data saved successfully.");
 }
 
+// Load and decrypt data from local storage
 function loadData() {
+  // Get user password
+  var password = prompt("Please enter your password to access your data:");
+
   // Load data from local storage
-  var data = JSON.parse(localStorage.getItem("mortgageData"));
+  var encryptedData = localStorage.getItem("mortgageData");
 
   // Check if data is empty
-  if (!data) {
+  if (!encryptedData) {
     alert("No saved data found.");
     return;
   }
 
-  // Set input values
+  // Decrypt data using user password
+  try {
+    var decryptedData = CryptoJS.AES.decrypt(encryptedData, password).toString(CryptoJS.enc.Utf8);
+  } catch (err) {
+    console.error(err);
+    alert("Incorrect password. Please try again.");
+    return;
+  }
+
+  // Parse decrypted data and set input values
+  var data = JSON.parse(decryptedData);
   document.getElementById("loanAmount").value = data.loanAmount;
   document.getElementById("interestRate").value = data.interestRate;
   document.getElementById("loanTerm").value = data.loanTerm;
