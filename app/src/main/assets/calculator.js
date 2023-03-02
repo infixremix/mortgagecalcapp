@@ -184,3 +184,37 @@ function loadData() {
   calculate();
   alert("Data loaded successfully.");
 }
+function exportToCSV() {
+  var csvRows = [];
+  var headers = ["Date", "Payment Amount", "Principal", "Interest", "Balance"];
+  var paymentSchedule = document.getElementById("paymentSchedule").getElementsByTagName("tbody")[0];
+
+  // Push header row to csvRows
+  csvRows.push(headers.join(","));
+
+  // Loop through payment schedule table rows and push to csvRows
+  for (var i = 0; i < paymentSchedule.rows.length; i++) {
+    var rowData = [];
+    var row = paymentSchedule.rows[i];
+
+    for (var j = 0; j < row.cells.length; j++) {
+      rowData.push(row.cells[j].innerText);
+    }
+
+    csvRows.push(rowData.join(","));
+  }
+
+  // Join csvRows with new line separator
+  var csvString = csvRows.join("\n");
+
+  // Encode the CSV data as a URI
+  var encodedCSV = encodeURIComponent(csvString);
+  var dataUri = "data:text/csv;charset=utf-8," + encodedCSV;
+
+  // Create mailto link with CSV data URI as the body
+  var mailtoLink = "mailto:recipient@example.com?subject=Payment Schedule&body=" + encodedCSV;
+
+  // Open the mailto link in the current tab
+  window.location.href = mailtoLink;
+}
+
