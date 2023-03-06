@@ -1,5 +1,6 @@
 function calculate() {
 	// Get input values
+	document.getElementById("paymentScheduleWrapper").style.display = "block";
 	var loanAmount = document.getElementById("loanAmount").value;
 	var interestRate = document.getElementById("interestRate").value;
 	var loanTerm = document.getElementById("loanTerm").value;

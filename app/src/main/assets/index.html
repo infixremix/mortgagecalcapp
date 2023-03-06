@@ -4,6 +4,11 @@
     <script src="save.js"></script>
     <script src="export.js"></script>
     <script src="calculator.js"></script>
+    <style>
+    #paymentScheduleWrapper {
+      display: none;
+    }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -42,22 +47,24 @@
             </form>
             <div id="totalPayments"></div>
         </div>
-        <div class="col-lg-6">
-            <h2>Payment Schedule</h2>
-            <table class="table table-striped" id="paymentSchedule">
-                <thead>
-                <tr>
-                    <th>Payment Date</th>
-                    <th>Payment Amount (£)</th>
-                    <th>Principal Paid (£)</th>
-                    <th>Interest Paid (£)</th>
-                    <th>Balance (£)</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <div id="totalPayments"></div>
+        <div id="paymentScheduleWrapper" style="display:none;">
+            <div class="col-lg-6">
+                <table class="table table-striped" id="paymentSchedule">
+                    <h2>Payment Schedule</h2>
+                    <thead>
+                    <tr>
+                        <th>Payment Date</th>
+                        <th>Payment Amount (£)</th>
+                        <th>Principal Paid (£)</th>
+                        <th>Interest Paid (£)</th>
+                        <th>Balance (£)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="totalPayments"></div>
+            </div>
         </div>
     </div>
 </div>
